@@ -33,9 +33,18 @@ def isStringPermutation(s1: str, s2: str) -> bool:
     
     return True
         
-print(isStringPermutation("asdf", "fsad"))
-print(isStringPermutation("asdf", "fsa"))
-print(isStringPermutation("asdf", "fsax"))
+#print(isStringPermutation("asdf", "fsad"))
+#print(isStringPermutation("asdf", "fsa"))
+#print(isStringPermutation("fffff", "fesax"))
 
 def pairsThatEqualSum(inputArray: list, targetSum: int) -> list:
     pairs = list()
+    pdict = dict()
+    for n in inputArray:
+        if n in pdict:
+            pairs.append((pdict[n], n))
+        else:
+            pdict[targetSum-n] = n
+    return pairs
+
+print(pairsThatEqualSum([1,2,3,4,5], 7))
