@@ -43,8 +43,9 @@ def pairsThatEqualSum(inputArray: list, targetSum: int) -> list:
     for n in inputArray:
         if n in pdict:
             pairs.append((pdict[n], n))
+            del pdict[n]
         else:
             pdict[targetSum-n] = n
     return pairs
 
-print(pairsThatEqualSum([1,2,3,4,5], 7))
+print(pairsThatEqualSum([1,2,3,3,4,4,5], 8))
