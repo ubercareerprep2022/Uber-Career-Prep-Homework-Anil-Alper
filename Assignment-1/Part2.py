@@ -14,16 +14,16 @@ def isStringPermutation(s1: str, s2: str) -> bool:
         return False
     
     for c in s1:
-        if c in t1:
+        if t1.get(c) != None:
             t1[c] += 1
         else:
             t1[c] = 1
     
     for c in s2:
-        if c not in t1:
+        if t1.get(c) == None:
             return False
         
-        if c not in t2:
+        if t2.get(c) == None:
             t2[c] = 1
         else:
             t2[c] += 1
@@ -39,14 +39,16 @@ print(isStringPermutation("fffff", "fesax"))
 
 def pairsThatEqualSum(inputArray: list, targetSum: int) -> list:
     pairs = list()
+    pairs_dict = dict()
     pdict = dict()
     for n in inputArray:
-        if n in pdict:
-            pairs.append((pdict[n], n))
-            del pdict[n]
+        if pdict.get(n) != None:
+            if pairs_dict.get((pdict[n],n)) == None:
+                pairs_dict[(pdict[n], n)] = "pair"
+                pairs.append((pdict[n], n))
         else:
             pdict[targetSum-n] = n
     return pairs
 
-print(pairsThatEqualSum([1,2,4,3,3,4,4,5], 8))
+print(pairsThatEqualSum([1,2,4,3,3,4,4,4,4,4,5], 8))
 
