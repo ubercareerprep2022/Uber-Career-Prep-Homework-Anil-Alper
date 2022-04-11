@@ -111,8 +111,8 @@ class LinkedList:
 
 
 #Tests
-lst = LinkedList()
-
+#lst = LinkedList()
+'''
 #testPushBackAddsOneNode
 for i in range(10):
     lst.push(Node(i))
@@ -149,6 +149,7 @@ for i in range(3):
 
 lst.printList()
 print(lst.getSize())
+'''
 
 
             
