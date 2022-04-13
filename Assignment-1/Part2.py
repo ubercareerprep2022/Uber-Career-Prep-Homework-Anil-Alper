@@ -7,28 +7,28 @@ Created on Tue Mar  8 20:05:31 2022
 """
 
 def isStringPermutation(s1: str, s2: str) -> bool:
-    t1 = dict()
-    t2 = dict()
+    s1_dict = dict()
+    s2_dict = dict()
     
     if len(s1) != len(s2):
         return False
     
-    for c in s1:
-        if t1.get(c) != None:
-            t1[c] += 1
+    for char in s1:
+        if s1_dict.get(char) != None:
+            s1_dict[char] += 1
         else:
-            t1[c] = 1
+            s1_dict[char] = 1
     
-    for c in s2:
-        if t1.get(c) == None:
+    for char in s2:
+        if s1_dict.get(char) == None:
             return False
         
-        if t2.get(c) == None:
-            t2[c] = 1
+        if s2_dict.get(char) == None:
+            s2_dict[char] = 1
         else:
-            t2[c] += 1
+            s2_dict[char] += 1
          
-        if t2[c] > t1[c]:
+        if s2_dict[char] > s1_dict[char]:
             return False
     
     return True
