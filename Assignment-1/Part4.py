@@ -111,8 +111,8 @@ class LinkedList:
 
 
 #Tests
-#lst = LinkedList()
-'''
+lst = LinkedList()
+
 #testPushBackAddsOneNode
 for i in range(10):
     lst.push(Node(i))
@@ -149,9 +149,68 @@ for i in range(3):
 
 lst.printList()
 print(lst.getSize())
-'''
 
 
-            
+
+#Bonus
+def isPalindrome(lst:LinkedList) -> bool:
+    stack = list()
+    i = 0
+    while i != lst.getSize()//2:
+        stack.append(lst.elementAt(i).val)
+        i += 1
+    
+    if lst.getSize() % 2 == 1:
+        i += 1
+    
+    while i != lst.getSize():
+        if lst.elementAt(i).val != stack.pop(len(stack)-1):
+            return False
+        i += 1
+    
+    return True
+
+
+# True Cases
+lstT1 = LinkedList()
+
+lstT1.push(Node(1))
+lstT1.push(Node(2))
+lstT1.push(Node(2))
+lstT1.push(Node(1))
+
+print(isPalindrome(lstT1))
+
+lstT2 = LinkedList()
+
+lstT2.push(Node(1))
+lstT2.push(Node(2))
+lstT2.push(Node(3))
+lstT2.push(Node(2))
+lstT2.push(Node(1))
+
+print(isPalindrome(lstT1))
+
+
+# False Cases
+lstF1 = LinkedList()
+
+lstF1.push(Node(1))
+lstF1.push(Node(2))
+lstF1.push(Node(3))
+lstF1.push(Node(1))
+
+print(isPalindrome(lstF1))
+
+lstF2= LinkedList()
+lstF2.push(Node(1))
+lstF2.push(Node(2))
+lstF2.push(Node(3))
+lstF2.push(Node(1))
+lstF2.push(Node(2))
+print(isPalindrome(lstF2))
+
+
+    
         
             
