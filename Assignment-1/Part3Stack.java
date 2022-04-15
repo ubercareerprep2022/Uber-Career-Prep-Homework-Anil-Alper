@@ -1,6 +1,6 @@
 package part3;
 
-public class Stack<T> {
+public class Stack {
 	private Integer[] arr;
 	private Integer[] minValArr;
 	private int size;
