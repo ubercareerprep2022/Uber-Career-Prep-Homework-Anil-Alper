@@ -1,24 +1,51 @@
-public class Stack {
+package part3;
+
+public class Stack<T> {
 	private Integer[] arr;
-	int size;
+	private Integer[] minValArr;
+	private int size;
+	private int minSize;
 	
 	public Stack() {
 		arr = new Integer[20];
+		minValArr = new Integer[20];
 		size = 0;
+		minSize = 0;
+	}
+	
+	public Integer min() {
+		if (!isEmpty()) {
+			return minValArr[minSize-1];
+		}
+		else {
+			return -1;
+		}
 	}
 	
 	public void push(Integer newElement) {
 		if (size == arr.length) {
-			doubleArr();
+			arr = doubleArr(arr);
 		}
+				
+		if (minSize == 0 || newElement <= minValArr[minSize-1]) {
+			if (minSize == minValArr.length) {
+				minValArr = doubleArr(minValArr);
+			}
+			minValArr[minSize] = newElement;
+			minSize++;
+		}
+		
 		arr[size] = newElement;
 		size++;
 	}
 	
 	public Integer pop() {
 		if (!isEmpty()) {
-			Integer poppedElement = arr[size-1];
 			size--;
+			Integer poppedElement = arr[size];
+			if (poppedElement == minValArr[minSize-1]) {
+				minSize--;
+			}
 			return poppedElement;
 		}
 		else {
@@ -43,12 +70,13 @@ public class Stack {
 		return size;
 	}
 	
-	private void doubleArr() {
-		Integer[] copyArr = new Integer[arr.length * 2];
+	private Integer[] doubleArr(Integer[] doubledArr) {
+		Integer[] copyArr = new Integer[doubledArr.length * 2];
 		
-		for (int i = 0; i < arr.length; i++) {
-			copyArr[i] = arr[i];
+		for (int i = 0; i < doubledArr.length; i++) {
+			copyArr[i] = doubledArr[i];
 		}
-		arr = copyArr;
+
+		return copyArr;
 	}
 }
