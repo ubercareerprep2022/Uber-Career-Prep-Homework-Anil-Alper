@@ -5,16 +5,15 @@ Created on Sun May 29 19:05:32 2022
 
 @author: Anıl Alper
 """
-
-class Tree:
-    def __init__(self, root):
-        self.root = root
-
 class TreeNode:
-    def __init__(self, val):
+    def __init__(self, val:int):
         self.val = val
         self.left = None
         self.right = None
+
+class Tree:
+    def __init__(self, root:TreeNode):
+        self.root = root
         
 #Exercise 1: Printing a Tree
 def printTree(tree):
@@ -37,6 +36,70 @@ node1.right.right = TreeNode(3)
 node1.right.left = TreeNode(6)
 
 tree1 = Tree(node1)
-printTree(tree1)
+#printTree(tree1)
 
 #Exercise 2: Printing a Tree Level by Level
+class Employee:
+        def __init__(self, name:str, title:str, directReports:list):
+            self.name = name
+            self.title = title
+            self.directReports = directReports
+            
+class OrganizationStructure:        
+    def __init__(self, employee:Employee):
+        self.employee = employee
+
+    def printLevelByLevel(self):
+        queue = [self.employee]
+        prev_level = 0
+        level_queue = [0]
+        while (len(queue) != 0):
+            cur_head = queue.pop(0)
+            cur_level = level_queue.pop(0)
+            if cur_level >  prev_level:
+                 print() 
+            print("Name: " + str(cur_head.name) + ", Title: " + str(cur_head.title))
+            for e in cur_head.directReports:
+                queue.append(e)
+                level_queue.append(cur_level+1)
+            prev_level = cur_level
+    
+    def printNumLevels(self):
+        cur_level = 1
+        queue = [self.employee]
+        level_queue = [1]
+        
+        while (len(queue) != 0):
+            cur_level = level_queue.pop(0)
+            cur_head = queue.pop(0)
+            for e in cur_head.directReports:
+                queue.append(e)
+                level_queue.append(cur_level+1)
+        
+        print(cur_level)
+           
+
+intern = Employee("K", "Sales Intern", [])
+
+
+engineerF = Employee("F", "Engineer", [])
+engineerG = Employee("G", "Engineer", [])
+engineerH = Employee("H", "Engineer", [])
+representative = Employee("J", "Sales Representative", [intern])
+
+director = Employee("I", "Director", [representative])
+managerD = Employee("D", "Manager", [engineerF, engineerG, engineerH])
+managerE = Employee("E", "Manager", [])
+
+cfo = Employee("B", "CFO", [director])
+cto = Employee("C", "CTO", [managerD, managerE])
+
+ceo = Employee("A", "CEO", [cfo, cto])
+
+org_structure = OrganizationStructure(ceo)
+
+org_structure.printLevelByLevel()
+org_structure.printNumLevels()
+
+
+
