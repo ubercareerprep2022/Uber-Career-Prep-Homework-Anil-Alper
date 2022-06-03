@@ -38,7 +38,7 @@ node1.right.left = TreeNode(6)
 tree1 = Tree(node1)
 #printTree(tree1)
 
-#Exercise 2: Printing a Tree Level by Level
+#Exercise 2 and 3: Printing a Tree Level by Level and Printing the Number of Levels
 class Employee:
         def __init__(self, name:str, title:str, directReports:list):
             self.name = name
@@ -102,4 +102,57 @@ org_structure.printLevelByLevel()
 org_structure.printNumLevels()
 
 
+#Exercise 4: Implement a Binary Search Tree
+class BinarySearchTree:
+    def __init__(self, root):
+        self.root = root
+        
+    def insert(self, val):
+        cur_node = self.root
+        self.insert_helper(val, cur_node)
+    
+    def insert_helper(self, val, cur_node):
+        if cur_node.val >= val:
+            if cur_node.left != None:
+                self.insert_helper(val, cur_node.left)
+            else:
+                cur_node.left = TreeNode(val)
+        else:
+            if cur_node.right != None:
+                self.insert_helper(val, cur_node.right)
+            else:
+                cur_node.right = TreeNode(val)
+        
+    def find(self, val):
+        cur_node = self.root
+        return self.find_helper(val, cur_node)
+    
+    def find_helper(self, val, cur_node):
+        if cur_node.val > val:
+            if cur_node.left != None:
+                return self.find_helper(val, cur_node.left)
+            else:
+                return False
+        elif cur_node.val < val:
+            if cur_node.right != None:
+                return self.find_helper(val, cur_node.right)
+            else:
+                return False
+        else:
+            return True
+        
+#Test Cases:
+first_node = TreeNode(1)
+tree = BinarySearchTree(first_node)
+tree.insert(5)
+print(tree.find(1))
+print(tree.find(2))
+print(tree.find(0))
+tree.insert(0)
+print(tree.find(0))
+tree.insert(8)
 
+
+#Exercise 5: Implement a phone book
+    
+    
