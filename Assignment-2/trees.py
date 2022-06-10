@@ -5,6 +5,10 @@ Created on Sun May 29 19:05:32 2022
 
 @author: Anıl Alper
 """
+from csv import reader
+from datetime import datetime
+
+
 class TreeNode:
     def __init__(self, val:int):
         self.val = val
@@ -152,7 +156,111 @@ tree.insert(0)
 print(tree.find(0))
 tree.insert(8)
 
-
+print()
 #Exercise 5: Implement a phone book
+class ListPhoneBook:
+    def __init__(self):
+        self.nums = 0
+        self.lst = list()
     
+    def size(self):
+        return self.nums
     
+    def insert(self, name, number):
+        self.lst.append([name, number])
+        self.nums += 1
+    
+    def find(self, name):
+        for i in range(self.size()):
+            if self.lst[i][0] == name:
+                return self.lst[i][1]
+        return -1
+
+class BinarySearchTreePhoneBook:
+    def __init__(self):
+        self.nums = 0
+        self.tree = BinarySearchTree(TreeNode(["a", 0]))
+        
+    def size(self):
+        return self.nums
+    
+    def insert(self, name, number):
+        self.tree.insert([name, number])
+        self.nums += 1
+    
+    def find(self, name):
+        cur_node = self.tree.root
+        return self.find_helper(name, cur_node)
+    
+    def find_helper(self, val, cur_node):
+        if cur_node.val[0] > val:
+            if cur_node.left != None:
+                return self.find_helper(val, cur_node.left)
+            else:
+                return -1
+        elif cur_node.val[0] < val:
+            if cur_node.right != None:
+                return self.find_helper(val, cur_node.right)
+            else:
+                return -1
+        else:
+            return cur_node.val[1]
+        
+#Exercise 6: Unsorted Lists v.s. Binary Search Trees
+
+def exercise_6(lst):
+    with open('data.csv', 'r') as read_obj:
+        csv_reader = reader(read_obj)
+        lst_start = datetime.now()
+        for row in csv_reader:
+            lst.insert(row[0], row[1])
+        lst_end = datetime.now()
+    print("Insert took " + str((lst_end - lst_start).microseconds / 1000) + " milliseconds.")
+        
+    if lst.size() == 1000000:
+        print("The size of the phone book is " + str(lst.size()) + ".")
+    else:
+        raise Exception("The size of this phone book is not equal to 1000000.")
+    
+    find_calls = 0
+    with open("search.txt") as file:
+        lst_start = datetime.now()
+        for name in file:
+            if lst.find(name.rstrip()) == -1:
+                raise Exception("Name not found.")
+            else:
+                find_calls += 1
+        lst_end = datetime.now()
+        time_find = str((lst_end - lst_start).microseconds / 1000) 
+    
+    print("find() was called " + str(find_calls) + " times.")
+    print("Search took " + str(time_find) + " milliseconds.")
+    print()
+
+#First Version
+exercise_6(ListPhoneBook())
+#Second Version
+exercise_6(BinarySearchTreePhoneBook())
+
+'''
+1. What is the output of your program when you use a ListPhoneBook?
+
+Insert took 959.923 milliseconds.
+The size of the phone book is 1000000.
+find() was called 1000 times.
+Search took 922.418 milliseconds.
+
+2. What is the output of your program when you use a BinarySearchTreePhoneBook?
+
+Insert took 995.65 milliseconds.
+The size of the phone book is 1000000.
+find() was called 1000 times.
+Search took 23.509 milliseconds.
+
+3. Why is there a difference in the running times for the two implementations?
+
+Insertion takes more time when using Binary Search Tree because it O(log(N)) instead of 
+O(1) as in the List implementation. 
+Search takes more time when using the List implementation because it is O(N) instead of
+O(log(N)) as in Binary Search Tree
+'''
