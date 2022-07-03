@@ -85,7 +85,6 @@ class GraphWithAdjacencyList:
                     explored[n] = "e"
             
             
-
 #Test Cases
 #BFS and DFS
 g = GraphWithAdjacencyList()
@@ -110,4 +109,46 @@ print(g.minNumberOfEdges(1, 5))
 print(g.minNumberOfEdges(6, 1))
 
 
+#Exercise 5
+class Solution:
+    def DFS(self, graph, cur_node, explored, stack):
+        explored[cur_node]  = "e"
+        for n in graph[cur_node]:
+            if explored.get(n) == None:
+                if graph[n] != 0:
+                    self.DFS(graph, n, explored, stack)
+                else:
+                    explored[n] = "e"
+                    stack.append(n)
+        stack.append(cur_node)
+    
+    def canFinish(self, numCourses: int, prerequisites: list) -> bool:
+        graph = [0] * numCourses
+        for p in prerequisites:
+            if graph[p[1]] == 0:
+                graph[p[1]] = [p[0]] 
+            else:
+                graph[p[1]].append(p[0])
+        
+        explored = dict()
+        stack = list()
+        
+        for i in range(len(graph)):
+            if explored.get(i) == None and graph[i] != 0:
+                self.DFS(graph, i, explored, stack)
+        
+        index_dict = dict()
+        
+        for i in range(len(stack)):
+            index_dict[stack[i]] = len(stack) - i - 1
+        
+        for p in prerequisites:
+            if index_dict[p[1]] >= index_dict[p[0]]:
+                return False
+        
+        return True
+            
+              
+        
+                
 
